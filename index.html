@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <style>
+      [class*="col"] {
+        padding: 1rem;
+        border: 2px;
+        background-color:rgb(95, 112, 128) ;
+      }
+      .profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#bg{
+  background-image: url("bg1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+    </style>
+  </head>
+
+  <body >
+    <div class="container-md my-5 border" id="bg">
+      <img src="Ekub.webp" alt="Profile Picture" class="profile-pic" />
+    <div class="container-md my-5 border">
+      <div class="row">
+        <div class="col-6">
+          <legend>Insert Data</legend>
+          <label for="user" class="form-label">User Name</label>
+          <input type="text" id="user" />
+          <div>
+            <label for="inputPassword5" class="form-label">Amount</label>
+            <input type="text" id="inputPassword5" />
+          </div>
+          <button type="button" id="btn" class="btn btn-secondary">
+            Click me
+          </button>
+          <button
+            type="button"
+            onclick="pickWinner()"
+            id="generate"
+            class="btn btn-secondary"
+          >
+            Generate
+          </button>
+        </div>
+        <div class="col-6">
+          <table
+            class="table table-bordered table-striped table-secondary"
+            id="myTable"
+          ></table>
+          <div id="append"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let arr1 = [];
+      let arr2 = [];
+      let btn = document.getElementById("btn");
+      btn.addEventListener("click", getElement);
+
+      function getElement() {
+        if (arr1.length >= 10) {
+    alert("Sorry, the event is already full.");
+    return;
+  }
+
+       let user_name = document.getElementById("user").value;
+        arr1.push(user_name);
+
+        let password = document.getElementById("inputPassword5").value;
+        arr2.push(password);
+
+        if (!/^[A-Za-z\s]+$/.test(user_name)) {
+    alert("Please enter a valid name with only letters.");
+    return;
+  }
+
+  // Validate amount (allow only numbers)
+  if (!/^\d+$/.test(password)) {
+    alert("Please enter a valid amount with only numbers.");
+    return;
+  }
+
+        var table = document.getElementById("myTable");
+        if (table.rows.length === 0) {
+    var headerRow = table.insertRow();
+    var nameHeader = document.createElement("th");
+    var amountHeader = document.createElement("th");
+
+    nameHeader.textContent = "Name";
+    amountHeader.textContent = "Amount";
+
+    nameHeader.style.fontWeight = "bold";
+    amountHeader.style.fontWeight = "bold";
+
+    headerRow.appendChild(nameHeader);
+    headerRow.appendChild(amountHeader);
+    table.appendChild(headerRow);
+  }
+
+
+
+
+        var newRow = table.insertRow();
+
+       newRow.innerHTML = "<td>" + user_name + "</td><td>" + password + "</td>";
+        
+        
+table.append(newRow);
+
+        table.append(newRow);
+
+        table.style.borderCollapse = "collapse";
+        table.style.border = "1px solid black";
+
+        var rows = table.getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].style.borderBottom = "1px solid black";
+        }
+        
+      }
+
+      let sum = 0;
+      function pickWinner() {
+        let randomIndex = Math.floor(Math.random() * arr1.length);
+        const winner = arr1[randomIndex];
+
+        for (let i = 0; i < arr2.length; i++) {
+          sum = parseInt(sum) + parseInt(arr2[i]);
+        }
+
+        let congratsMessage =
+          "Congratulation!!  " + winner + " you have won " + sum + " ETB";
+
+        let parent = document.getElementById("append");
+        parent.innerHTML =
+          '<div class="congrats alert alert-danger" role="alert">' +
+          congratsMessage +
+          "</div>";
+      }
+
+
+
+      
+    </script>
+  </body>
+</html>
